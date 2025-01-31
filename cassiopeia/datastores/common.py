@@ -156,9 +156,9 @@ if USE_PYCURL:
                 encoding = match.group(1)
                 body = body.decode(encoding)
 
-                # Load JSON if necessary
-                if "APPLICATION/JSON" in content_type:
-                    body = json.loads(body)
+            # Load JSON if necessary
+            if "APPLICATION/JSON" in content_type:
+                body = json.loads(body)
 
             # Handle errors
             if status_code >= 400:
@@ -251,18 +251,18 @@ else:  # Use requests
                 "Content-Type", "application/octet-stream"
             ).upper()
 
-            # Decode to text if a charset is included
-            match = re.search("CHARSET=(\S+)", content_type)
-            if match:
-                # Load JSON if necessary
-                if "APPLICATION/JSON" in content_type:
-                    body = r.json()
-                else:
-                    body = r.content.decode("utf-8")
+            # Load JSON if necessary
+            if "APPLICATION/JSON" in content_type:
+                body = r.json()
             elif "IMAGE/" in content_type:
                 body = r.content
             else:
-                body = r.content.decode("utf-8")
+                match = re.search("CHARSET=(\S+)", content_type)
+                if match:
+                    encoding = match.group(1)
+                else:
+                    encoding = "utf-8"
+                body = r.content.decode(encoding)
 
             return body, response_headers
 
