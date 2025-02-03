@@ -1,6 +1,6 @@
 from abc import abstractmethod, abstractclassmethod
 import types
-from typing import Mapping, Set, Union, Optional, Type, Generator
+from typing import Mapping, Set, Union, Optional, Type, Generator, Self
 import functools
 import logging
 from enum import Enum
@@ -236,7 +236,7 @@ class CassiopeiaPipelineObject(CassiopeiaObject, metaclass=GetFromPipeline):
 
 
 class CassiopeiaGhost(CassiopeiaPipelineObject, Ghost):
-    def load(self, load_groups: Set = None) -> "CassiopeiaGhost":
+    def load(self, load_groups: Set = None) -> Self:
         if load_groups is None:
             load_groups = self._Ghost__load_groups
         if self._Ghost__all_loaded:
