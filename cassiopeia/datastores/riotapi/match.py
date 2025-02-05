@@ -1,20 +1,20 @@
-from typing import Type, TypeVar, MutableMapping, Any, Iterable, Generator
-import arrow
 import datetime
 import math
+from typing import Any, Generator, Iterable, MutableMapping, Type, TypeVar
 
+import arrow
 from datapipelines import (
     DataSource,
+    NotFoundError,
     PipelineContext,
     Query,
-    NotFoundError,
     validate_query,
 )
 
-from .common import RiotAPIService, APINotFoundError
-from ...data import Continent, Region, Platform, MatchType, Queue, QUEUE_IDS
+from ...data import QUEUE_IDS, Continent, MatchType, Platform, Queue, Region
 from ...dto.match import MatchDto, MatchListDto, TimelineDto
 from ..uniquekeys import convert_region_to_platform, convert_to_continent
+from .common import APINotFoundError, RiotAPIService
 
 T = TypeVar("T")
 
@@ -67,6 +67,10 @@ class MatchAPI(RiotAPIService):
             data = data["info"]  # Drop the metadata
         except APINotFoundError as error:
             raise NotFoundError(str(error)) from error
+
+        # Heuristic to avoid returning matches with basically no data. Possibly from really old games?
+        if not data.get("gameName") and not data.get("gameCreation"):
+            raise NotFoundError("Match API returned incomplete data")
 
         data["continent"] = continent.value
         data["matchId"] = query["id"]
