@@ -155,7 +155,7 @@ class DDragon(DataSource):
             version=query["version"], locale=locale
         )
         try:
-            body = json.loads(self._client.get(url)[0])
+            body = self._client.get(url)[0]
         except HTTPError as e:
             raise NotFoundError(str(e)) from e
 
@@ -246,7 +246,7 @@ class DDragon(DataSource):
     ) -> VersionListDto:
         url = "https://ddragon.leagueoflegends.com/api/versions.json"
         try:
-            body = json.loads(self._client.get(url)[0])
+            body = self._client.get(url)[0]
         except HTTPError as e:
             raise NotFoundError(str(e)) from e
 
@@ -270,7 +270,7 @@ class DDragon(DataSource):
             region=region.value.lower()
         )
         try:
-            body = json.loads(self._client.get(url)[0])
+            body = self._client.get(url)[0]
 
         except HTTPError as e:
             raise NotFoundError(str(e)) from e
@@ -291,7 +291,7 @@ class DDragon(DataSource):
     ) -> LanguagesDto:
         url = "https://ddragon.leagueoflegends.com/cdn/languages.json"
         try:
-            body = json.loads(self._client.get(url)[0])
+            body = self._client.get(url)[0]
         except HTTPError as e:
             raise NotFoundError(str(e)) from e
 
@@ -376,7 +376,7 @@ class DDragon(DataSource):
             version=query["version"], locale=locale
         )
         try:
-            body = json.loads(self._client.get(url)[0])
+            body = self._client.get(url)[0]
         except HTTPError as e:
             raise NotFoundError(str(e)) from e
 
@@ -417,7 +417,7 @@ class DDragon(DataSource):
             version=query["version"], locale=locale
         )
         try:
-            body = json.loads(self._client.get(url)[0])
+            body = self._client.get(url)[0]
         except HTTPError as e:
             raise NotFoundError(str(e)) from e
 
@@ -514,13 +514,13 @@ class DDragon(DataSource):
             version=query["version"], locale=locale
         )
         try:
-            body = json.loads(self._client.get(url)[0])
+            body = self._client.get(url)[0]
         except HTTPError as e:
             raise NotFoundError(str(e)) from e
 
         cdragon_url = "https://raw.communitydragon.org/pbe/plugins/rcp-be-lol-game-data/global/default/v1/perks.json"
         try:
-            cdragon_body = json.loads(self._client.get(cdragon_url)[0])
+            cdragon_body = self._client.get(cdragon_url)[0]
         except HTTPError as e:
             raise NotFoundError(str(e)) from e
 
@@ -685,7 +685,7 @@ class DDragon(DataSource):
             version=query["version"], locale=locale
         )
         try:
-            body = json.loads(self._client.get(url)[0])
+            body = self._client.get(url)[0]
         except HTTPError as e:
             raise NotFoundError(str(e)) from e
 
@@ -805,7 +805,7 @@ class DDragon(DataSource):
             version=query["version"], locale=locale
         )
         try:
-            body = json.loads(self._client.get(url)[0])
+            body = self._client.get(url)[0]
         except HTTPError as e:
             raise NotFoundError(str(e)) from e
 
@@ -855,7 +855,7 @@ class DDragon(DataSource):
             version=query["version"], locale=locale
         )
         try:
-            body = json.loads(self._client.get(url)[0])
+            body = self._client.get(url)[0]
         except HTTPError as e:
             raise NotFoundError(str(e)) from e
 
