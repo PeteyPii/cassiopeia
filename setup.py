@@ -10,6 +10,7 @@ install_requires = [
     "Pillow",
     "arrow",
     "requests",
+    "beautifulsoup4",
 ]
 
 # Require python 3.6
