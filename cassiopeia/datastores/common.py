@@ -1,8 +1,8 @@
 import re
 import zlib
-from contextlib import contextmanager, ExitStack
+from contextlib import ExitStack, contextmanager
 from io import BytesIO
-from typing import Mapping, MutableMapping, Any, Union, Dict, List
+from typing import Any, Dict, List, Mapping, MutableMapping, Union
 from urllib.parse import urlencode
 
 try:
@@ -151,7 +151,7 @@ if USE_PYCURL:
             ).upper()
 
             # Decode to text if a charset is included
-            match = re.search("CHARSET=(\S+)", content_type)
+            match = re.search(r"CHARSET=(\S+)", content_type)
             if match:
                 encoding = match.group(1)
                 body = body.decode(encoding)
@@ -257,7 +257,7 @@ else:  # Use requests
             elif "IMAGE/" in content_type:
                 body = r.content
             else:
-                match = re.search("CHARSET=(\S+)", content_type)
+                match = re.search(r"CHARSET=(\S+)", content_type)
                 if match:
                     encoding = match.group(1)
                 else:

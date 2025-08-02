@@ -1,52 +1,48 @@
-import functools
-import arrow
 import datetime
+import functools
 import itertools
 from collections import Counter
-from typing import List, Dict, Union, Generator, Optional
+from typing import Dict, Generator, List, Optional, Union
 
+import arrow
 from datapipelines import NotFoundError
 from merakicommons.cache import lazy, lazy_property
-from merakicommons.container import (
-    searchable,
-    SearchableList,
-    SearchableDictionary,
-)
+from merakicommons.container import SearchableDictionary, SearchableList, searchable
 
 from .. import configuration
-from .staticdata import Versions
 from ..data import (
-    Region,
-    Platform,
     Continent,
-    Tier,
-    GameType,
     GameMode,
-    MatchType,
-    Queue,
-    Side,
-    Lane,
-    Role,
+    GameType,
     Key,
+    Lane,
+    MatchType,
+    Platform,
+    Queue,
+    Region,
+    Role,
+    Side,
     SummonersRiftArea,
+    Tier,
     Tower,
 )
+from ..dto import match as dto
 from .common import (
-    CoreData,
-    CoreDataList,
-    CassiopeiaObject,
     CassiopeiaGhost,
     CassiopeiaLazyList,
+    CassiopeiaObject,
+    CoreData,
+    CoreDataList,
     ghost_load_on,
 )
-from ..dto import match as dto
 from .patch import Patch
-from .summoner import Summoner
+from .staticdata import Versions
 from .staticdata.champion import Champion
-from .staticdata.rune import Rune
-from .staticdata.summonerspell import SummonerSpell
 from .staticdata.item import Item
 from .staticdata.map import Map
+from .staticdata.rune import Rune
+from .staticdata.summonerspell import SummonerSpell
+from .summoner import Summoner
 
 
 def load_match_on_attributeerror(method):
@@ -459,7 +455,7 @@ class MatchData(CoreData):
 ##############
 
 
-class MatchHistory(CassiopeiaLazyList):  # type: List[Match]
+class MatchHistory(CassiopeiaLazyList):
     """The match history for a summoner. By default, this will return the entire match history."""
 
     _data_types = {MatchListData}
