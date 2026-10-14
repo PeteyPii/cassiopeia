@@ -352,21 +352,14 @@ class RiotAPIRequest(object):
             handlers = []
         # Try to properly handling the 429 and retry the call after the appropriate time limit.
         if error.code == 429:
-            # Identify which rate limit was hit (application, method, or service)
-            if "X-Rate-Limit-Type" not in error.response_headers:
-                rate_limiting_type = "service"
-            elif error.response_headers["X-Rate-Limit-Type"] == "application":
-                rate_limiting_type = "application"
-            elif error.response_headers["X-Rate-Limit-Type"] == "method":
-                rate_limiting_type = "method"
-            elif error.response_headers["X-Rate-Limit-Type"] == "service":
-                rate_limiting_type = "service"
+            # Identify which rate limit was hit (application, method, or service). Anything other than our own
+            # application/method limits (no header, "service", "server", or some future value) is a limit on Riot's
+            # side, so treat it as a service limit and back off rather than aborting.
+            limit_type = error.response_headers.get("X-Rate-Limit-Type")
+            if limit_type in ("application", "method"):
+                rate_limiting_type = limit_type
             else:
-                raise ValueError(
-                    "Unknown cause of rate limit; aborting. Headers were: {}".format(
-                        error.response_headers
-                    )
-                )
+                rate_limiting_type = "service"
 
             # Create a new handler
             new_handler = self.service._handlers[429][
